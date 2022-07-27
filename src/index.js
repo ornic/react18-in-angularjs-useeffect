@@ -52,6 +52,10 @@ function angularize(Component, componentName, angularApp, bindings) {
         this.$onChanges = () => {
           this.root.render(React.createElement(Component, this));
         };
+
+        this.$onDestroy = () => {
+            this.root.unmount();
+        };
       },
     ],
   });
@@ -90,6 +94,10 @@ function angularizeDirective(Component, directiveName, angularApp, bindings) {
         scope.$watchGroup(keys, (root) => {
           root.render(React.createElement(Component, scope));
         });
+
+        scope.$on('$destroy', function() {
+            root.unmount();
+          });
       },
     };
   });
